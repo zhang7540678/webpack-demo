@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const UglifyJsPlugin = require('webpack-parallel-uglify-plugin');
 
 module.exports = {
   mode: 'development',
@@ -11,7 +12,7 @@ module.exports = {
   output: {
     path: Path.resolve(__dirname, './dist/static/'),
     publicPath: './static/',
-    filename: 'js/[name].bundle.js'
+    filename: 'js/[name].bundle.js',
   },
   module: {
     rules: [
@@ -56,22 +57,27 @@ module.exports = {
       manifest: require('./Dll/dev/vendor-manifest.json')
     }),
     new AddAssetHtmlPlugin({
-      filepath: require.resolve('./Dll/dev/vendor.dll.js')
-    })
+      filepath: require.resolve('./Dll/dev/vendor.dll.js'),
+      outputPath: './libs'
+    }),
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        uglifyJS: {
+          output: {
+            comments: false
+          },
+          compress: {
+            warning: false
+          }
+        }
+      },
+    }),
   ],
   devtool: '#source-map',
   performance: {
     hints: false
   },
   optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
-        }
-      }
-    }
+    
   }
 }
