@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --config webpack.dev.config.js --progress",
-    "dll:dev": "webpack --config webpack.dev.dll.js"
+    "dev": "webpack-dev-server --config webpack.dev.config.js --progress",
+    "build:dev": "webpack --config webpack.dev.config.js --progress",
+    "dll:dev": "webpack --config webpack.dev.dll.js",
+    "build": "webpack --config webpack.prod.config.js --progress",
+    "dll:prod": "webpack --config webpack.prod.dll.js"
   },
   "repository": {
     "type": "git",
@@ -32,6 +35,7 @@
     "vuex": "^3.1.0",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.2.0",
     "webpack-parallel-uglify-plugin": "^1.1.0"
   },
   "dependencies": {

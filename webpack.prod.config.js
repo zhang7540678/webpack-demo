@@ -11,17 +11,11 @@ module.exports = {
   entry: Path.resolve(__dirname, './src/main.js'),
   output: {
     path: Path.resolve(__dirname, './dist/static/'),
-    publicPath: '/static/',
-    filename: 'js/[name].bundle.js',
+    publicPath: './static/',
+    filename: 'js/[name]_[hash].bundle.js',
   },
   module: {
     rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        exclude: /node_modules/,
-        include: Path.resolve(__dirname, 'src')
-      },
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
@@ -37,7 +31,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           limit: 8192,
-          name: 'img/[name].[ext]'
+          name: 'img/[name]_[hash].[ext]'
         }
       }
     ]
@@ -53,30 +47,38 @@ module.exports = {
       template: Path.resolve(__dirname, './src/index.html'),
       inject: 'body'
     }),
-    //new CleanWebpackPlugin('./dist'),
+    new CleanWebpackPlugin('./dist'),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
+      filename: 'css/[name]_[hash].css',
       chunkFilename: 'css/[id].css'
     }),
     new webpack.DllReferencePlugin({
       context: __dirname,
-      manifest: require('./Dll/dev/vendor-manifest.json')
+      manifest: require('./Dll/prod/vendor-manifest.json')
     }),
     new AddAssetHtmlPlugin({
-      filepath: require.resolve('./Dll/dev/vendor.dll.js'),
-      outputPath: './libs',
-      publicPath: '/static/libs'
+      filepath: Path.resolve(__dirname, './Dll/prod/*.dll.js'),
+      outputPath: './libs'
+    }),
+    new UglifyJsPlugin({
+      cacheDir: './cache/prod/dist',
+      uglifyOptions: {
+        uglifyJS: {
+          output: {
+            comments: false
+          },
+          compress: {
+            warning: false
+          }
+        }
+      },
     }),
   ],
   devtool: '#source-map',
   performance: {
     hints: false
   },
-  devServer: {
-    contentBase: Path.join(__dirname, 'dist'),
-    port: 9000,
-    publicPath: '/static',
-    hot: true,
-    open: true,
+  optimization: {
+    
   }
 }

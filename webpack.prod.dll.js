@@ -1,6 +1,7 @@
 const Path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('webpack-parallel-uglify-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 var vendor = [
   'vue',
   'vuex',
@@ -9,14 +10,14 @@ var vendor = [
 ]
 
 module.exports = {
-  mode: 'development',
+  mode: 'product',
   entry: {
     vendor
   },
   output: {
-    path: Path.join(__dirname, './Dll/dev'),
-    filename: '[name].dll.js',
-    library: '[name]_library'
+    path: Path.join(__dirname, './Dll/prod'),
+    filename: '[name]_[hash].dll.js',
+    library: '[name]_[hash]_library'
   },
   module: {
     rules: [
@@ -35,11 +36,12 @@ module.exports = {
   },
   plugins: [
     new webpack.DllPlugin({
-      path: Path.join(__dirname,'./Dll/dev' ,'[name]-manifest.json'),
-      name: '[name]_library'
+      path: Path.join(__dirname,'./Dll/prod' ,'[name]-manifest.json'),
+      name: '[name]_[hash]_library'
     }),
+    new CleanWebpackPlugin('./Dll/prod'),
     new UglifyJsPlugin({
-      cacheDir: './cache/dev/dll',
+      cacheDir: './cache/prod/dll',
       uglifyOptions: {
         uglifyJS: {
           output: {
