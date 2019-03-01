@@ -5,13 +5,14 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const UglifyJsPlugin = require('webpack-parallel-uglify-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   mode: 'development',
   entry: Path.resolve(__dirname, './src/main.js'),
   output: {
-    path: Path.resolve(__dirname, './dist/static/'),
-    publicPath: '/static/',
+    path: '/',
+    publicPath: '/',
     filename: 'js/[name].bundle.js',
   },
   module: {
@@ -67,16 +68,20 @@ module.exports = {
       outputPath: './libs',
       publicPath: '/static/libs'
     }),
+    new VueLoaderPlugin()
   ],
+  resolve: {
+    extensions: ['.js', '.vue', '.jsx']
+  },
   devtool: '#source-map',
   performance: {
     hints: false
   },
-  devServer: {
-    contentBase: Path.join(__dirname, 'dist'),
-    port: 9000,
-    publicPath: '/static',
-    hot: true,
-    open: true,
-  }
+  // devServer: {
+  //   contentBase: Path.join(__dirname, 'dist'),
+  //   port: 8001,
+  //   publicPath: '/static',
+  //   hot: true,
+  //   open: true,
+  // }
 }

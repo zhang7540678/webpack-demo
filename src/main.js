@@ -1,12 +1,14 @@
-const elementUi = require('element-ui');
-const vueRouter = require('vue-router');
-const vuex = require('vuex');
-const vue = require('vue');
-require('./assets/js/index.js');
-require('./assets/css/base.css')
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router/index.js'
+debugger
+//注册全局的vue, 挂载到dom节点app上 
+new Vue({
+  el: "#app",
+  router: router,
+  render: h => h(App)
+}).$mount("#app")
 
-var head = document.getElementsByTagName('head')[0];
 
 
-document.write('hello world!')
 
