@@ -40,7 +40,15 @@ module.exports = {
           limit: 8192,
           name: 'img/[name].[ext]'
         }
-      }
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file-loader',
+        options: {
+          limit:1000,
+          name: 'fonts/[name].[ext]'
+        }
+      },
     ]
   },
   plugins: [
@@ -54,7 +62,6 @@ module.exports = {
       template: Path.resolve(__dirname, './src/index.html'),
       inject: 'body'
     }),
-    //new CleanWebpackPlugin('./dist'),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
       chunkFilename: 'css/[id].css'
