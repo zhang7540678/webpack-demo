@@ -1,6 +1,7 @@
 <template>
   <div>
     <p>{{ title }}</p>
+    <p>{{ title | toUpper }}</p>
     <p>text</p>
     <el-button type="primary">按钮</el-button>
   </div>
@@ -10,7 +11,7 @@ import Request from '../libs/request';
 export default {
   data(){
     return {
-      title: 'this is a demo!Hello world!'
+      title: 'this is a demo!Hello world!',
     }
   },
   created(){
