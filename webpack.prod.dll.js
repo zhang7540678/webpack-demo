@@ -10,7 +10,7 @@ var vendor = [
 ]
 
 module.exports = {
-  mode: 'product',
+  mode: 'production',
   entry: {
     vendor
   },
@@ -54,7 +54,7 @@ module.exports = {
       },
     }),
   ],
-  optimization: {
-    
+  performance: {
+    hints:false
   }
 }

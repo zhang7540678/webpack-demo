@@ -5,9 +5,10 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const UglifyJsPlugin = require('webpack-parallel-uglify-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: Path.resolve(__dirname, './src/main.js'),
   output: {
     path: Path.resolve(__dirname, './dist/static/'),
@@ -16,6 +17,12 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        exclude: /node_modules/,
+        include: Path.resolve(__dirname, 'src')
+      },
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
@@ -39,7 +46,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'progress.env': {
-        NODE_ENV: 'development'
+        NODE_ENV: 'production'
       }
     }),
     new HtmlWebpackPlugin({
@@ -58,7 +65,8 @@ module.exports = {
     }),
     new AddAssetHtmlPlugin({
       filepath: Path.resolve(__dirname, './Dll/prod/*.dll.js'),
-      outputPath: './libs'
+      outputPath: './libs',
+      publicPath: '/static/libs'
     }),
     new UglifyJsPlugin({
       cacheDir: './cache/prod/dist',
@@ -73,12 +81,23 @@ module.exports = {
         }
       },
     }),
+    new VueLoaderPlugin()
   ],
-  devtool: '#source-map',
+  //devtool: '#source-map',
   performance: {
     hints: false
   },
   optimization: {
     
-  }
+  },
+  resolve: {
+    extensions: ['.js', '.vue', '.jsx']
+  },
+  // devServer: {
+  //   contentBase: Path.join(__dirname, 'dist'),
+  //   port: 8001,
+  //   publicPath: '/static',
+  //   hot: true,
+  //   open: true,
+  // }
 }
