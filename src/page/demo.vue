@@ -2,12 +2,15 @@
   <div>
     <p>{{ title }}</p>
     <p>{{ title | toUpper }}</p>
-    <p>text</p>
-    <el-button type="primary">按钮</el-button>
+    <p>state: {{ count }}</p>
+    <p>getters: {{ doubleCount }}</p>
+    <el-button type="primary" @click="del">按钮-</el-button>
+    <el-button type="primary" @click="add({name:'zhang san', age: '13'})">按钮+</el-button>
   </div>
 </template>
 <script>
 import Request from '../libs/request';
+import {mapState, mapGetters, mapActions} from 'vuex';
 export default {
   data(){
     return {
@@ -15,10 +18,6 @@ export default {
     }
   },
   created(){
-    this.getNoticeList()
-    this.getNoticeList()
-    this.getNoticeList()
-    this.getNoticeList()
     this.getNoticeList()
   },
   methods: {
@@ -36,7 +35,19 @@ export default {
       }).then(res => {
         console.log(res)
       })
-    }
+    },
+    ...mapActions([
+      'add',
+      'del'
+    ])
+  },
+  computed: {
+    ...mapState([
+      'count'
+    ]),
+    ...mapGetters([
+      'doubleCount'
+    ])
   }
 }
 </script>
