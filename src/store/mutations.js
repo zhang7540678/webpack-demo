@@ -1,12 +1,12 @@
 /* 
 ** mutations
 */
-
+import * as TYPES from './mutation-types';
 export default {
-  add(state) {
+  [TYPES.COUNT_ADD] (state) {
     state.count++;
   },
-  del(state) {
+  [TYPES.COUNT_DEL] (state) {
     state.count--;
   }
 }
