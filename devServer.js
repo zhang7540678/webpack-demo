@@ -21,10 +21,10 @@ webpackConfig.entry.unshift("webpack-hot-middleware/client?noInfo=true&reload=tr
 app.use(hotMiddleware(compiler))
 
 //请求接口代理
-app.use('/qexApi', proxy({
+app.use('/api', proxy({
   target: 'https://www.qex.com/',
   pathRewrite:{
-    '^/qexApi': ''
+    //'^/qexApi': ''
   },
   changeOrigin: true
 }))

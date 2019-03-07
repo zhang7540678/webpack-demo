@@ -8,6 +8,7 @@ import store from './store';
 
 Vue.use(elementUI);
 //注册全局filter
+Vue.$filter = filterFun;
 Object.keys(filterFun).forEach(key => {
   Vue.filter(key, filterFun[key]);
 })

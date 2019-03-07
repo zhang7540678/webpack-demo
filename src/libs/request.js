@@ -5,7 +5,7 @@ import Axios from 'axios';
 import { Loading, MessageBox } from 'element-ui';
 
 let loadingCount = 0;
-let loadingInstance;
+let loadingInstance; //loading实例
 //显示loading状态
 let startLoading = () => {
   if(loadingCount>0) return;
@@ -31,7 +31,7 @@ function Request(option = {}){
     url,
     method='GET',
     data={},
-    timeout=3000,
+    timeout=30000,
     loading=true
   } = option;
 
@@ -45,7 +45,7 @@ function Request(option = {}){
       //请求完成把loading去掉
       closeLoading();
       
-      let resData = res || {};
+      let resData = res.data || {};
       let isErr = false;
       isErr = isErr || (resData.result == 'FAIL');
 

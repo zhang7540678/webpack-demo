@@ -31,7 +31,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: [MiniCssExtractPlugin.loader, 'css-loader'],
+        loader: [MiniCssExtractPlugin.loader, 'css-loader']
+      },
+      {
+        test: /\.less$/,
+        loaders: ['style-loader','css-loader','less-loader']
       },
       {
         test:/\.(png|jpg|jpeg|svg)/,
@@ -80,7 +84,15 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
   ],
   resolve: {
-    extensions: ['.js', '.vue', '.jsx']
+    extensions: ['.js', '.vue', '.jsx'],
+    alias: {
+      '@libs': Path.resolve(__dirname, './src/libs'),
+      '@page': Path.resolve(__dirname, './src/page'),
+      '@components': Path.resolve(__dirname, './src/components'),
+      '@assets': Path.resolve(__dirname, './src/assets'),
+      '@store': Path.resolve(__dirname, './src/store'),
+      '@request': Path.resolve(__dirname, './src/libs/request.js'),
+    }
   },
   devtool: '#source-map',
   performance: {

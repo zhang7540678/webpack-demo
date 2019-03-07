@@ -9,7 +9,8 @@ const load = function(name){
 
 //定义路由，每个路由映射一个组件
 let routes = [
-  {path: '/demo', name: 'demo', component: load('demo')}
+  {path: '/demo', name: 'demo', component: load('demo')},
+  {path: '/table', name: 'table', component: load('table')},
 ]
 
 //注册路由
