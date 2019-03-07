@@ -28,6 +28,13 @@ app.use('/api', proxy({
   },
   changeOrigin: true
 }))
+app.use('/tradApi', proxy({
+  target: 'https://www.qex.com/',
+  pathRewrite:{
+    '^/tradApi': ''
+  },
+  changeOrigin: true
+}))
 
 //监听服务端口
 app.listen(port, function(err){
