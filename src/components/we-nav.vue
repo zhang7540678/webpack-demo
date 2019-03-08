@@ -21,7 +21,6 @@
               <el-submenu v-else :key="index" :index="`${index}`">
                 <template slot="title">{{item.meta}}</template>
                 <el-menu-item-group>
-                  <el-menu-item index="1">导航二</el-menu-item>
                   <el-menu-item v-for="(list, key) in item.children" :key="key" :index="`${index}-${key}`" :route="{name: list.name}">{{ list.meta }}</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>

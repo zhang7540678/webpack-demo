@@ -3,12 +3,14 @@ import App from './App';
 import router from './router/index';
 import elementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import '@assets/css/base.css';
 import * as filterFun from './libs/filter';
+import * as utils from './libs/utils';
 import store from './store';
 
 Vue.use(elementUI);
 //注册全局filter
-Vue.$filter = filterFun;
+Vue.$utils = utils;
 Object.keys(filterFun).forEach(key => {
   Vue.filter(key, filterFun[key]);
 })

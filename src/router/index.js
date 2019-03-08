@@ -11,7 +11,12 @@ const load = function(name){
 //若要在导航中显示，添加meta属性值
 let routes = [
   {path: '/demo', name: 'demo', meta: 'demo', component: load('demo')},
-  {path: '/table', name: 'table', meta: '表格', component: load('table')},
+  {path: '/table', name: 'table', meta: '表格', component: load('table/layout'),
+    children: [
+      {path: '/table1', name: 'table1', meta: '简易表格', component: load('table/table1')},
+      {path: '/table2', name: 'table2', meta: '查询表格', component: load('table/table2')},
+    ]
+  },
   
 ]
 

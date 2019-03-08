@@ -1,5 +1,9 @@
 <template>
   <div>
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item>表格</el-breadcrumb-item>
+      <el-breadcrumb-item>简易表格</el-breadcrumb-item>
+    </el-breadcrumb>
     <we-table v-bind="tableProps">
       <template slot="opt">
         <el-table-column
@@ -36,9 +40,9 @@ export default {
         tableConfs:[
           {prop: 'debtor', label: '公司名称'},
           {prop: 'debtorCityCode', label: '地址'},
-          {prop: 'issueDate', label: '日期', width: '110px', filter: 'dateFormat'},
-          {prop: 'interest', label: '利息', width: '120px'},
-          {prop: 'principalInterestTotal', label: '本息和', width: '120px'},
+          {prop: 'issueDate', label: '日期', filter: 'formatDate'},
+          {prop: 'interest', label: '利息'},
+          {prop: 'principalInterestTotal', label: '本息和'},
           {prop: 'onlookerWestCnt', label: '围观人数'},
         ],
         dataMaps:{

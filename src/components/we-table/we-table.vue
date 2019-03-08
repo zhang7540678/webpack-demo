@@ -39,9 +39,7 @@
 </template>
 <script>
 import Request from '@request';
-import { dateFormat } from '@libs/filter';
 import Vue from 'vue';
-import { debug } from 'util';
 
 export default {
   name: 'WeTable',
@@ -72,6 +70,7 @@ export default {
       type: Array,
       default: []
     },
+    //动态获取对应数据
     dataMaps: {
       type: Object,
       default: () => {
@@ -107,6 +106,7 @@ export default {
   data() {
     return {
       tableData: [],
+      reqParams:{}
     }
   },
   created() {
@@ -120,11 +120,11 @@ export default {
         pageSize: vm.pager.pageSize,
         pageNum: vm.pager.page
       }
-      Object.assign(reqData, vm.reqData);
+      vm.reqParams = Object.assign(reqData, vm.reqData);
       Request({
         url: vm.reqUrl,
         method: vm.reqMethod,
-        data: reqData
+        data: vm.reqParams
       }).then(res => {
         vm.beforeRender().then(() => {
           //获取列表数据
@@ -147,7 +147,7 @@ export default {
     filterFun(itemConf) {
       let vm = this; 
       let fn = (row, column, cellValue, index) => {
-        return Vue.$filter[itemConf.filter](cellValue);
+        return Vue.$utils[itemConf.filter](cellValue);
       }
 
       return fn;
