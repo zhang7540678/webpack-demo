@@ -8,9 +8,11 @@ const load = function(name){
 }
 
 //定义路由，每个路由映射一个组件
+//若要在导航中显示，添加meta属性值
 let routes = [
-  {path: '/demo', name: 'demo', component: load('demo')},
-  {path: '/table', name: 'table', component: load('table')},
+  {path: '/demo', name: 'demo', meta: 'demo', component: load('demo')},
+  {path: '/table', name: 'table', meta: '表格', component: load('table')},
+  
 ]
 
 //注册路由

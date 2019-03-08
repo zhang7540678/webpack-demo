@@ -1,6 +1,13 @@
 <template>
   <div id='app'>
-    <router-view></router-view>
+    <el-container>
+      <el-aside width="230px">
+        <WeNav />
+      </el-aside>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </div>
 </template>
 <script>
@@ -11,9 +18,12 @@ export default {
   },
   created() {
     console.log('I`m coming!')
+  },
+  components: {
+    WeNav: () => import('@components/we-nav')
   }
 }
 </script>
-<style scoped>
+<style scoped lang="css">
 
 </style>
