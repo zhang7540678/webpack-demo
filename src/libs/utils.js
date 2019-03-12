@@ -36,3 +36,96 @@ export function formatDate(date, fmt) { //author: meizz
   return fmt; 
 }
 
+/* 
+** 金额千分化
+** @param num 数字
+** @param decimals 保留小数点位数
+** @param flag 是否保留小数位尾部零 默认为true 
+*/
+export function toThousands(num, decimals, flag) {
+  if(!decimals && decimals!='0') decimals = 2;
+  if(!num){
+    num = 0;
+    num = num.toFixed(decimals);
+  }
+  if(flag==='' || flag==null || flag==undefined){
+    flag = true;
+  }
+
+  var info = parseFloat(num).toFixed(decimals).toString().split('.');
+  num=info[0];
+  var result = '';
+  while (num.length > 3) {
+      result = ',' + num.slice(-3) + result;
+      num = num.slice(0, num.length - 3);
+  }
+  if (num) { result = num + result; }
+  info[0] = result;
+  if(!flag){
+    var len = info[1].length;
+    var arr = info[1].split('');
+    var index = 1;
+    while(arr[len-index] == '0' && index<=len){
+      index++;
+    }
+    arr = arr.slice(0, len-index+1);
+    if(arr.length>0){
+      info[1] = arr.join('');
+    }else{
+      info.pop()
+    }
+  }
+  return info.join('.');
+}
+
+/* 
+** 金额转万元
+** @params num 数字
+** @param decimals 保留小数点位数 默认为6
+*/
+export function formatToWangYuan(num, decimals) {
+  var numberReg = /^[0-9]+.?[0-9]*$/;
+  if(!numberReg.test(num)){
+    return '';
+  }
+  if(!decimals) decimals=6;
+
+  var origin = decimals - 4;
+  if(origin<0) origin = 0;
+  num = num.toFixed(origin).toString();
+  var numArr = num.split('.');
+  var newNum = numArr[0]+numArr[1];
+  if(newNum.length <= decimals){
+    var zeroNum = decimals+1-newNum.length;
+    newNum = fillZero(zeroNum) + newNum;
+  }
+  var len = newNum.length
+  var index = len - decimals;
+  var arr = newNum.split('');
+  var newIndex = 1;
+  while(arr[len-newIndex] == '0' && newIndex<=decimals){
+    newIndex++;
+  }
+  arr = arr.slice(0,len-newIndex+1);
+  if(arr.length>index){
+    arr.splice(index, 0, '.');
+  }
+
+  return toThousands(arr.join (''), decimals, false);
+}
+
+/* 
+** 补充零
+** @params num 零的个数
+*/
+export function fillZero(num){
+  var str = '';
+  var index = 0;
+  while(index<num){
+    str += '0';
+    index++;
+  }
+
+  return str;
+}
+

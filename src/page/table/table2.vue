@@ -59,8 +59,8 @@ export default {
           {prop: 'debtor', label: '公司名称'},
           {prop: 'debtorCityCode', label: '地址'},
           {prop: 'issueDate', label: '日期', filter: 'formatDate'},
-          {prop: 'interest', label: '利息'},
-          {prop: 'principalInterestTotal', label: '本息和'},
+          {prop: 'interest', label: '利息(万)', filter: 'formatToWangYuan'},
+          {prop: 'principalInterestTotal', label: '本息和(万)', filter: 'formatToWangYuan'},
           {prop: 'onlookerWestCnt', label: '围观人数'},
         ],
         dataMaps:{

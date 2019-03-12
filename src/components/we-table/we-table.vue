@@ -12,7 +12,11 @@
           :key="index" 
           v-bind="itemConf" 
           :show-overflow-tooltip="true"
-          ></el-table-column>
+          >
+          <template slot-scope="{row}">
+            <span v-html="row[itemConf.prop]"></span>
+          </template>
+        </el-table-column>
         <el-table-column 
           v-else 
           :key="index" 
@@ -175,4 +179,5 @@ export default {
     }
   }
 </style>
+
 
