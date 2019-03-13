@@ -17,6 +17,7 @@ let routes = [
       {path: '/table2', name: 'table2', meta: '查询表格', component: load('table/table2')},
     ]
   },
+  {path: '/address', name: 'address', meta: '地址', component: load('address')},
   
 ]
 

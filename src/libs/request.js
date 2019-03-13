@@ -34,16 +34,22 @@ function Request(option = {}){
     timeout=30000,
     loading=true
   } = option;
+  let params={};
 
-  startLoading();
-  loading && loadingCount++;
-
-  let reqData = {url, method, data, timeout};
+  if(loading){
+    startLoading();
+    loadingCount++;
+  }
+  if(/^get$/i.test(method)){
+    params = Object.assign({}, data);
+    data = {};
+  }
+  let reqData = {url, method, data, params, timeout};
   //发送请求
   let createRequest = new Promise(function(resolve, reject){
-    Axios(reqData).then(res => {
+    Axios.request(reqData).then(res => {
       //请求完成把loading去掉
-      closeLoading();
+      loading && closeLoading();
       
       let resData = res.data || {};
       let isErr = false;

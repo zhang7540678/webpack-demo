@@ -28,10 +28,10 @@ app.use('/api', proxy({
   },
   changeOrigin: true
 }))
-app.use('/tradApi', proxy({
-  target: 'https://www.qex.com/',
+app.use('/tradeApi', proxy({
+  target: 'https://trade.qex.com/',
   pathRewrite:{
-    '^/tradApi': ''
+    '^/tradeApi': ''
   },
   changeOrigin: true
 }))
