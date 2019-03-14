@@ -3,7 +3,8 @@ import Request from '@request';
 const state = {
   province: [],
   city: {},
-  options: []
+  options: [],
+  optCityState: {}
 }
 
 let getters = {
@@ -17,32 +18,49 @@ let mutations = {
   updateCity(state, {id,value}) {
     state.city[id] = value;
   },
-  updateOptions(state, value) {
+  updateOptions(state, {id, value}) {
     state.options = value;
+    id && (state.optCityState[id] = true);
   }
 }
 
 let actions = {
-  getProvince({commit, state}) {
+  getProvince({commit, state, dispatch}, {provinceId, type}) {
     let vm = this;
-    if(state.province.length != 0){
+    if(state.province.length != 0 && type != 'cascade'){
       return;
     }
+    if(state.options.length != 0 && type == 'cascade'){
+      return;
+    }
+
     Request({
       url: '/tradeApi/getProvinceList.do',
       data: {},
       loading: false
     }).then(res => {
       if(res.code == 200){
-        commit('updateProvince', res.result.pageItems);
-        commit('updateOptions', formatOptionsProvince(res.result.pageItems));
+        if(type != 'cascade'){
+          commit('updateProvince', res.result.pageItems);
+        }else{
+          commit('updateOptions', {
+            value: formatOptionsProvince(res.result.pageItems)
+          });
+        }
+        //若有省级数据，则带出市级数据
+        if(provinceId && type == 'cascade'){
+          dispatch('getCity', {provinceId, type});
+        }
       }
     })
   },
-  getCity({commit, state}, provinceId){
+  getCity({commit, state}, {provinceId, type}){
     let vm = this;
-    if(state.city[provinceId]){
+    if(state.city[provinceId] && type != 'cascade'){
       return Promise.resolve(state.city[provinceId]);
+    }
+    if(state.optCityState[provinceId] && type == 'cascade'){
+      return;
     }
     return Request({
       url: '/tradeApi/getCityList.do',
@@ -52,13 +70,18 @@ let actions = {
       loading: false
     }).then(res => {
       if(res.code == 200){
-        commit('updateCity', {
-          id: provinceId,
-          value: res.result.pageItems
-        });
-        commit('updateOptions', formatOptionsCity(res.result.pageItems, provinceId, state));
-        console.log(formatOptionsCity(res.result.pageItems, provinceId, state))
-        return Promise.resolve(res.result.pageItems);
+        if(type != 'cascade'){
+          commit('updateCity', {
+            id: provinceId,
+            value: res.result.pageItems
+          });
+          return Promise.resolve(res.result.pageItems);
+        }else{
+          commit('updateOptions', {
+            id: provinceId,
+            value: formatOptionsCity(res.result.pageItems, provinceId, state)
+          });
+        }
       }
     })
   }
@@ -85,10 +108,9 @@ function formatOptionsCity(val,id, state){
 
     return obj;
   })
-  debugger
   var newArr = state.options;
   newArr.forEach(item => {
-    if(item.areaCode == id){
+    if(item.value == id){
       item.city = arr;
     }
   })
