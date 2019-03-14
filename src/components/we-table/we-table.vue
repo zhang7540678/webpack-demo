@@ -1,6 +1,9 @@
 <template>
   <div class='we-table'>
     <el-table
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
       :data="tableData"
       :border="border"
       width="100%">
@@ -110,7 +113,8 @@ export default {
   data() {
     return {
       tableData: [],
-      reqParams:{}
+      reqParams:{},
+      loading: false
     }
   },
   created() {
@@ -125,16 +129,21 @@ export default {
         pageNum: vm.pager.page
       }
       vm.reqParams = Object.assign(reqData, vm.reqData);
+      vm.loading=true;
       Request({
         url: vm.reqUrl,
         method: vm.reqMethod,
-        data: vm.reqParams
+        data: vm.reqParams,
+        loading: false
       }).then(res => {
+        vm.loading=false;
         vm.beforeRender().then(() => {
           //获取列表数据
           vm.tableData = vm.getStrJson(res, vm.dataMaps.list);
-          vm.pager.total = vm.getStrJson(res, vm.dataMaps.pager)
+          vm.pager.total = vm.getStrJson(res, vm.dataMaps.pager);
         })
+      }).catch(err => {
+        vm.loading = false;
       })
     },
     getStrJson(obj, str) {
