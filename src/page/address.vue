@@ -1,5 +1,8 @@
 <template>
   <div>
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item>地址</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-row>
       <el-col :span="24">
         <h2>一般模式：</h2>
