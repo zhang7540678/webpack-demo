@@ -18,6 +18,7 @@ let routes = [
     ]
   },
   {path: '/address', name: 'address', meta: '地址', component: load('address')},
+  {path: '/form', name: 'form', meta: '表单', component: load('form')},
   
 ]
 

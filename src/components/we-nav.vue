@@ -6,7 +6,7 @@
           default-active="0"
           :router="true"
           class="el-menu-vertical-demo aside-menu">
-          <h5>导航项</h5>
+          <h5 class="nav">导航项</h5>
           <!-- <el-submenu index="0">
             <template slot="title">导航一</template>
             <el-menu-item-group>
@@ -58,5 +58,9 @@ export default {
     top: 0;
     bottom: 0;
     overflow: 0;
+    .nav{
+      background: #efefef;
+      padding: 10px 22px;
+    }
   }
 </style>
