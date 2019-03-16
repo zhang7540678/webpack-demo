@@ -79,7 +79,7 @@ export function toThousands(num, decimals, flag) {
 }
 
 /* 
-** 金额转万元
+** 金额元转万元
 ** @params num 数字
 ** @param decimals 保留小数点位数 默认为6
 */
@@ -92,7 +92,7 @@ export function formatToWangYuan(num, decimals) {
 
   var origin = decimals - 4;
   if(origin<0) origin = 0;
-  num = num.toFixed(origin).toString();
+  num = parseFloat(num).toFixed(origin).toString();
   var numArr = num.split('.');
   var newNum = numArr[0]+numArr[1];
   if(newNum.length <= decimals){
@@ -129,3 +129,69 @@ export function fillZero(num){
   return str;
 }
 
+/* 
+** 金额万元转元
+** @params num 数字
+** @param decimals 保留小数点位数 默认为2
+*/
+export function formatWangToYuan(num, decimals) {
+  if(isNull(num)){
+    return '';
+  }
+  if(isNull(decimals)){
+    decimals = 2;
+  }
+
+  num = parseFloat(num).toFixed(decimals+4).toString();
+  var index = num.indexOf('.');
+  var numArr = num.split('');
+  var pre = num[index];
+  numArr.splice(index+4,1,'.');
+	numArr.splice(index,1,'0');
+
+  return numArr.join('').replace(/\.$/, '')
+}function formatWangToYuan(num, decimals) {
+  if(isNull(num)){
+    return '';
+  }
+  if(isNull(decimals)){
+    decimals = 2;
+  }
+
+  num = parseFloat(num).toFixed(decimals+4).toString();
+  var index = num.indexOf('.');
+  var numArr = num.split('');
+  var pre = num[index];
+  numArr.splice(index+5,0,'.');
+	numArr.splice(index,1,'');
+
+  return numArr.join('').replace(/\.$/, '')
+}
+
+/* 
+** 判断值是否未数字
+** @params val 值
+*/
+export function isNumber(val) {
+  let numReg = /^(0|[1-9]\d*)(\.\d+)?$/;
+  if(isNull(val)){
+    return false;
+  }
+
+  val = val.toString();
+
+  return numReg.test(val);
+}
+
+/* 
+** 判断是否为空值
+** @params val 值
+*/
+
+export function isNull(val){
+  if(val===null || val===undefined || val===''){
+    return true;
+  }else{
+    return false
+  }
+}
