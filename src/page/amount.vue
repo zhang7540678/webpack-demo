@@ -8,11 +8,12 @@
       <el-col :span="24">
         <h3>金额组件：元与万元之间的转换</h3>
         <br>
-        <p>单位（元）： {{num}}<el-input v-model="num"></el-input></p>
-        <br>
-        <el-button type="primary" @click="add">num++</el-button>
+        <p>单位（元）：</p> 
+        <el-input v-model="num" style="width:220px;"></el-input>
       </el-col>
       <el-col :span="24">
+        <br>
+        <p>单位（万元）：</p>
         <we-amount v-model="num"></we-amount>
       </el-col>
     </el-row>
@@ -23,13 +24,11 @@
 export default {
   data() {
     return {
-      num: 123456789
+      num: '10000000000'
     }
   },
   methods: {
-    add() {
-      this.num += 30000000;
-    }
+   
   },
   components: {
     weAmount: () => import("@components/we-amount")
